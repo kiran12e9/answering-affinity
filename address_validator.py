@@ -1,26 +1,33 @@
 import requests
+import re
+
 
 address_part_without_delimiters = ""
 pin_code_error = "Are you trying to deliver outside India? 😊 😊 😊 Because the PIN code does not match any city 🫤 🫤"
 api_request_error = "Exception occurred while getting the postal details. It's not your fault; it's the API server's fault!"
 
 address = input("Enter the address you want to deliver: ")
-address_inputted=address.split(" ")
+address=address.lower()
 
-def extract_pin_code(address):
+
+
+def extract_pin_code(input_address):
     pincode = ""
-    address_parts_without_comma = address.split(",")
+    address_without_comma = input_address.replace(","," ")
+    address_without_delimiters=address_without_comma.split(" ")
     is_pincode_present_in_address = False
-    for part in address_parts_without_comma:
-        address_part_without_delimiters = part.split(" ")
-        for address_part in address_part_without_delimiters:
-            if address_part.isdigit():
-                is_pincode_present_in_address = True
-                pincode = address_part
+    for address_part in address_without_delimiters:
+        if address_part.isdigit() and len(address_part) == 6:
+            is_pincode_present_in_address = True
+            pincode = address_part
+            if address_part =="bengaluru" or address_part=="bangalore":
+                address_part="bangalore"
+            if address_part=="mysuru":
+                address_part="mysore"           
     if is_pincode_present_in_address:
         get_post_office_details(pincode)
     else:
-        print("No PIN code is found in the address")
+        print("No Pincode is found in the address")
 
 
 def get_post_office_details(pincode):
@@ -39,15 +46,26 @@ def get_post_office_details(pincode):
 
 def validate_address(post_offices):
     valid_address = False
+    state=post_offices[0]["State"].lower()
+    city=post_offices[0]["Region"].lower()
+    print("hello",address_part_without_delimiters)
     for offices in post_offices:
-        office = offices["Name"]
-        office_name_without_space = office.split(" ")
-        for office_name in office_name_without_space:
-            if office_name in address_inputted:
-                valid_address = True
-                break
-            else:
-                print(office_name)
+        office_name = offices["Name"]
+        office_name=office_name.lower()
+
+        if  office_name in address:
+            valid_address = True
+            break
+        
+    if state in address :
+        print("state ok")
+    else:
+        print("state differs")
+
+    if city in address: 
+        print("city ok")
+    else:
+        print("city differs",city)               
     if valid_address:
         print("Address is valid!")
     else:
