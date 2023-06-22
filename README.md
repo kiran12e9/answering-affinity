@@ -29,5 +29,12 @@ The extracted data is stored in the file name "outputfinal.txt".
 
 # 3. address_validator.py 
 
+Address validator contains the python script for validating the address by using the postal api details .<br>
+
+It first checks whether pin code is present or not in the given address, if not it outputs invalid.
+<br> If present,then it checks atleast there is a state and a city presnet in the address then if minimum conditions are met, <br>
+It requests the api for the postal details of given pincode <br>
+Then, it cchecks whether the city state region are indeed corressponds to the given pincode in the address.
+If no pincode is found, It outputs the error.
   
 
