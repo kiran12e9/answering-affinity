@@ -36,5 +36,11 @@ It first checks whether pin code is present or not in the given address, if not 
 It requests the api for the postal details of given pincode <br>
 Then, it cchecks whether the city state region are indeed corressponds to the given pincode in the address.
 If no pincode is found, It outputs the error.
-  
+
+To run the file in the command prompt: <br>
+Open the terminal,Navigate to the file location <br>
+Then run 
+```
+python address_validator.py
+```
 
