@@ -1,3 +1,10 @@
+
+# code is almost self explanatory , it first finds out
+# whether there is pincode present or not in the given address
+#Then, it extracts the pin code 
+#After fetching the postal details, it validates the city and state and region present in the given address.
+
+
 import requests
 import re
 
@@ -52,7 +59,7 @@ def validate_address(post_offices,address_without_delimiters):
     state=post_offices[0]["State"].lower()
     city=post_offices[0]["Region"].lower()
     if " " in city:
-        city=(city.split())[0] 
+        city=(city.split())[0]
     for offices in post_offices:
         office_name = offices["Name"]
         office_name=office_name.lower()
@@ -69,6 +76,11 @@ def validate_address(post_offices,address_without_delimiters):
     else:           
         print("Invalid address.")
         
+
+
+
+
+
 
 pin_code_error = "Are you trying to deliver outside India? 😊 😊 😊 Because the PIN code does not match any city 🫤 🫤"
 api_request_error = "Exception occurred while getting the postal details. It's not your fault; it's the API server's fault!"
