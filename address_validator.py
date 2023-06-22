@@ -1,8 +1,10 @@
 
-# code is almost self explanatory , it first finds out
+# The code is almost self explanatory , it first finds out
 # whether there is pincode present or not in the given address
 #Then, it extracts the pin code 
-#After fetching the postal details, it validates the city and state and region present in the given address.
+# It does a minimum requirement check like whether atleaast 4 address components are present,
+# like state city h.no/street/appartment street/building/colony/region etc and then 
+# It fetches the postal details and validates the city and state and region present in the given address.
 
 
 import requests
@@ -23,7 +25,7 @@ def extract_pin_code(input_address):
         if address_part.isdigit():
             is_pincode_present_in_address = True
             pincode = address_part
-        if address_part =="bengaluru" :
+        if address_part =="bengaluru" :    # addresses may contain bengaluru and mysuru, but the api contains bangalore and mysore .
             address_without_delimiters[counter]="bangalore"
         if address_part=="mysuru":
                 address_without_delimiters[address_part]="mysore"                      
@@ -59,9 +61,9 @@ def validate_address(post_offices,address_without_delimiters):
     state=post_offices[0]["State"].lower()
     city=post_offices[0]["Region"].lower()
     if " " in city:
-        city=(city.split())[0]
-    for offices in post_offices:
-        office_name = offices["Name"]
+        city=(city.split())[0] #some cities contain extra information about city. Eg:  Bangalore (Ashoknagar),so we split and take the first item in the fetched postal details
+    for offices in post_offices:   #gets a list of post_ffices with present pincode
+        office_name = offices["Name"]  #office_name represents the individual office in the given pincode
         office_name=office_name.lower()
         if  office_name in address:
             valid_address = True
