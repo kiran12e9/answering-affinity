@@ -14,9 +14,9 @@ in tabular spaced format in the local file.
 And the data will be saved to the outputfinal.txt file on your machine. <br>
 
 Code Explanation : <br>
-'''
+```
 wget command is used to download the file from the provided URL and saves it as NAVAll.txt.
-'''
+```
 
 
 # 2. outputfinal.txt
